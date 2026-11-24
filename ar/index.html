@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en-SG">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><meta name="theme-color" content="#f8f5ed">
+<title>The Gifting Room · New Moon</title><link rel="icon" href="data:,"><link rel="stylesheet" href="./style.css">
+<script type="importmap">{"imports":{"@google/model-viewer":"./vendor/model-viewer.js","qrcode":"./vendor/qr.js"}}</script>
+</head>
+<body>
+<svg class="defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+<symbol id="arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
+<symbol id="qr-icon" viewBox="0 0 24 24"><path d="M3 3h6v6H3zm12 0h6v6h-6zM3 15h6v6H3zm12 0h3v3h3m-6 3h3m3-9v2M3 12h3m6-9v4m0 5h4m-4 5v4"/></symbol>
+<symbol id="place" viewBox="0 0 24 24"><path d="M2.5 8V3h5m9 0h5v5m0 8v5h-5m-9 0h-5v-5M6 9l6-3 6 3v7l-6 3-6-3zm0 0 6 3 6-3m-6 3v7"/></symbol>
+<symbol id="orbit" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="4.4" transform="rotate(-18 12 12)"/><path d="M7 8c-.2-2.2.6-4.4 2-4.9 2.1-.8 5.4 2.9 7.1 8.1 1.8 5.3 1.4 10-1 10.8-1.6.6-3.6-1.5-5.3-4.5"/></symbol>
+<symbol id="pause" viewBox="0 0 24 24"><path d="M9 6v12m6-12v12" stroke-width="2.6"/></symbol>
+<symbol id="play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7z"/></symbol>
+<symbol id="right" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+<symbol id="close" viewBox="0 0 24 24"><path d="m5 5 14 14M5 19 19 5"/></symbol>
+</defs></svg>
+<header><div class="wrap mast"><div class="identity">NEW MOON</div><span class="mast-sub">GIFT ATELIER</span><div class="head-actions"><span class="mock">Mock experience</span><a class="poster-link" href="#poster"><svg><use href="#qr-icon"/></svg>Poster QR</a></div></div></header>
+<main class="wrap">
+<section class="intro" aria-labelledby="heading"><div><p class="kicker"><b></b>LUNAR NEW YEAR EDITION</p><h1 id="heading">The Gifting <em>Room.</em></h1></div><p class="lead">A closer look at the New Moon collection. Explore each piece in 3D, then place it in your space.</p></section>
+<div class="layout"><article class="exhibit" aria-label="Product viewer">
+<div class="stage">
+<svg id="engraving" aria-hidden="true" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice"></svg>
+<div class="stage-head"><span class="figure"><span class="rule"></span>FIG. <span id="fig">05</span> &nbsp;/&nbsp; 06</span><span class="live"><i></i><span id="status" role="status">Loading 3D</span></span></div>
+<img id="study-preview" class="study-preview" src="../products/cny-hamper-basket/preview.png" alt="" fetchpriority="high"><model-viewer id="viewer" loading="eager" camera-controls auto-rotate rotation-per-second="9deg" auto-rotate-delay="2500" interaction-prompt="none" camera-orbit="17deg 73deg 104%" field-of-view="28deg" min-camera-orbit="auto 8deg 55%" max-camera-orbit="auto 94deg 200%" shadow-intensity="0.7" shadow-softness="1" exposure="1.05" environment-image="neutral" touch-action="pan-y" ar ar-modes="webxr scene-viewer quick-look" ar-scale="fixed"><span slot="ar-button"></span><span slot="progress-bar" aria-hidden="true"></span></model-viewer>
+<div class="stage-foot"><span><svg><use href="#orbit"/></svg>Drag to rotate</span><button id="spin" type="button" disabled title="Pause rotation" aria-label="Pause rotation"><svg><use href="#pause"/></svg></button></div></div>
+<div class="caption"><div><p class="kicker" id="category">FESTIVE GIFTING</p><h2 id="product-name">CNY Hamper Basket</h2><p class="detail" id="type">Woven basket assortment</p></div><button class="ar-action" id="activate" disabled><svg><use href="#place"/></svg>View in your space</button></div>
+</article>
+<section class="index" aria-labelledby="index-title"><div class="index-title"><div><p class="kicker">COLLECTION GUIDE</p><h2 id="index-title">Object index</h2></div><span class="folio">01—06</span></div><div class="picker" id="picker"></div><p class="index-note">Study models with placeholder pack art.</p></section></div>
+<section class="poster" id="poster" aria-labelledby="poster-title"><div class="poster-art" aria-hidden="true"><svg viewBox="0 0 180 140" id="poster-drawing"></svg></div><div class="poster-copy"><p class="kicker">FROM PLATFORM TO PARLOUR</p><h2 id="poster-title">The MRT poster edition</h2><p>This room is the destination for the mock CNY MRT poster QR. Scan to open it on your phone.</p></div><a id="qr-link" class="qr-card" aria-label="Open the configured poster destination"><span id="qrcode"></span><span>SCAN TO OPEN</span></a></section>
+</main><footer class="wrap"><span>NEW MOON &nbsp;/&nbsp; GIFT ATELIER</span><span>Singapore &nbsp;·&nbsp; Prototype edition</span></footer>
+<dialog id="notice" aria-labelledby="notice-title" aria-describedby="notice-copy"><button class="dismiss" aria-label="Close"><svg><use href="#close"/></svg></button><p class="kicker">AUGMENTED REALITY</p><h2 id="notice-title">Open on your phone</h2><p id="notice-copy"></p><a class="notice-link" href="#poster">Go to poster QR <svg><use href="#arrow"/></svg></a></dialog>
+<script type="module" src="./app.js"></script>
+</body></html>
