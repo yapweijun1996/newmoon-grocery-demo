@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#173e35">
+  <title>New Moon | Prototype Studies</title>
+  <link rel="icon" href="data:,">
+  <style>
+    :root { color-scheme: light; font-family: Georgia, serif; color: #183c34; background: #f5f1e6; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; }
+    .wrap { width: min(100% - 40px, 1040px); margin: auto; }
+    header { border-bottom: 1px solid #c9c2ad; padding: 22px 0; }
+    .mast { display: flex; justify-content: space-between; align-items: center; gap: 1em; }
+    .brand { font-size: 1.1rem; font-weight: bold; letter-spacing: .11em; text-transform: uppercase; }
+    .label, .eyebrow, .number, footer { font: 600 .68rem/1.4 system-ui, sans-serif; letter-spacing: .15em; text-transform: uppercase; }
+    .label { color: #8b6e39; text-align: right; }
+    main { padding: 68px 0 80px; }
+    .eyebrow { color: #9a7839; }
+    h1 { max-width: 700px; font-size: clamp(3.3rem, 11vw, 7rem); line-height: .98; font-weight: normal; letter-spacing: -.045em; margin: 25px 0; }
+    h1 em { color: #997c42; font-weight: normal; }
+    .lead { color: #52675c; max-width: 520px; font: 1rem/1.7 system-ui, sans-serif; margin-bottom: 48px; }
+    .cards { display: grid; gap: 14px; }
+    .card { min-height: 220px; display: flex; flex-direction: column; padding: 26px; background: #e7e3d3; color: inherit; text-decoration: none; border: 1px solid #d4cbb5; transition: background .2s, transform .2s; }
+    .card:nth-child(2) { background: #e1e8dd; }
+    .card:hover { transform: translateY(-3px); background: #d7e0d3; }
+    .card:focus-visible { outline: 3px solid #997c42; outline-offset: 3px; }
+    .card-top { display: flex; justify-content: space-between; align-items: start; }
+    .card svg { width: 34px; height: 34px; fill: none; stroke: currentColor; stroke-width: 1.3; }
+    .card h2 { font-size: 2rem; font-weight: normal; margin: auto 0 8px; }
+    .card p { margin: 0; font: .9rem/1.5 system-ui, sans-serif; color: #52675c; }
+    footer { border-top: 1px solid #c9c2ad; padding: 22px 0; color: #65766c; }
+    @media (min-width: 650px) { .cards { grid-template-columns: 1fr 1fr; } main { padding-top: 100px; } }
+    @media (prefers-reduced-motion: reduce) { .card { transition: none; } }
+  </style>
+</head>
+<body>
+  <header><div class="wrap mast"><span class="brand">New Moon</span><span class="label">Prototype - mock pack art</span></div></header>
+  <main class="wrap">
+    <p class="eyebrow">Singapore / Digital studies</p>
+    <h1>A little room<br>for <em>discovery.</em></h1>
+    <p class="lead">Explore a virtual grocery store and a collection of gifts in 3D. These are prototype experiences with mock pack art.</p>
+    <div class="cards">
+      <a class="card" href="./store/"><span class="card-top"><span class="number">01 / Explore</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10h18M5 10v10h14V10M4 10l2-6h12l2 6M9 20v-6h6v6"/></svg></span><h2>Store atlas</h2><p>Wander through the virtual provision room →</p></a>
+      <a class="card" href="./ar/"><span class="card-top"><span class="number">02 / Discover</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8V3h5m8 0h5v5m0 8v5h-5M8 21H3v-5m4-7 5-3 5 3v6l-5 3-5-3zm0 0 5 3 5-3m-5 3v6"/></svg></span><h2>The gifting room</h2><p>Explore the collection in 3D and AR →</p></a>
+    </div>
+  </main>
+  <footer><div class="wrap">New Moon / Prototype edition</div></footer>
+</body>
+</html>

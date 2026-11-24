@@ -12,7 +12,7 @@ npm ci
 npm start
 ```
 
-Open **http://127.0.0.1:4186/store/**. This serves the **repository root**, not just `store/`: the browser also needs `../products/` and `../ar/`. A different static HTTP server is fine if it serves those siblings, ES modules, WASM and `store/node_modules/`. Requires WebGL2. No bundler, API key, external font, CDN or paid service is required. The scan renderer is imported only when opening a splat.
+Open **http://127.0.0.1:4186/store/**. This serves the **repository root**, not just `store/`: the browser also needs `../products/` and `../ar/`. A different static HTTP server is fine if it serves those siblings, ES modules, WASM and the committed `store/vendor/` files. Requires WebGL2. No bundler, API key, external font, CDN or paid service is required. The scan renderer is imported only when opening a splat.
 
 - **Model store:** drag with one finger to orbit. Pinch, scroll or use the zoom buttons; reset restores the cutaway view. Expand gives the scene the full window. Tap an object or its numbered pin, or use the keyboard-accessible shelf index.
 - **Product card:** shows a mock SGD price, adds to the tab's mock basket and links to `../ar/?product=<slug>`. Basket quantities survive refresh via session storage; there is no checkout, order submission or inventory backend.
@@ -41,7 +41,7 @@ No Blender installation or splat re-export is required. If authoring placements 
 
 - `catalog.js`: five SKUs with display names, mock prices, descriptions, swatches and slugs. Preview art comes from `../products/<slug>/preview.png`. Product loading tries `../products/<slug>/model.glb`, then `../products/<slug>.glb`. A missing GLB leaves a labeled carton, retried on window focus and every 30 seconds until present. Replace `NEW MOON (placeholder pack art)` in the product sources, rebuild their GLBs/previews and reload. No real logos are used.
 - `room.js`: generated shop shell, arched built-ins, stock, windows, counter/island, plants and gifting plinth. Static architecture is merged by material. `viewer.js`: orbit, Draco decoding, fixtures, product placement/picking and scan lifecycle.
-- `assets/grocery-refill-island.glb` and `assets/rotan-pendant-showroom.glb`: unmodified copies from local read-only `Blender-3D-Gallery`, `origin/main` at `4ba775fe`, `models/sgmy-mall-{grocery-refill-island,rotan-pendant-showroom}/model.glb`. The showroom contributes its woven shades, luminaires and suspension pieces. The decoder is served locally from `three/examples/jsm/libs/draco/gltf/`. No new glTF extras are needed.
+- `assets/grocery-refill-island.glb` and `assets/rotan-pendant-showroom.glb`: unmodified copies from local read-only `Blender-3D-Gallery`, `origin/main` at `4ba775fe`, `models/sgmy-mall-{grocery-refill-island,rotan-pendant-showroom}/model.glb`. The showroom contributes its woven shades, luminaires and suspension pieces. The decoder is served locally from `store/vendor/three/draco/`. No new glTF extras are needed.
 
 ## Verification
 

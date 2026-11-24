@@ -11,7 +11,7 @@ npm ci --prefix ar
 python3 -m http.server 8921 --bind 127.0.0.1
 ```
 
-Visit <http://127.0.0.1:8921/ar/>. `npm ci` runs `prepare.mjs`: this copies the npm model-viewer distribution and Three's `examples/jsm/libs/draco/gltf/` decoder into `ar/vendor/` and bundles the QR encoder as an ES module. If lifecycle scripts are disabled, run `npm run prepare --prefix ar` explicitly. Do not open `index.html` as a `file:` URL. The page does not require a CDN, a QR API, Spark splats, or access to the gallery repo at runtime.
+Visit <http://127.0.0.1:8921/ar/>. The committed `vendor/` directory provides the runtime dependencies; no npm install is needed to view the site. To regenerate it, `npm ci` runs `prepare.mjs`: this copies the npm model-viewer distribution and Three's `examples/jsm/libs/draco/gltf/` decoder into `ar/vendor/` and bundles the QR encoder as an ES module. If lifecycle scripts are disabled, run `npm run prepare --prefix ar` explicitly. Do not open `index.html` as a `file:` URL. The page does not require a CDN, a QR API, Spark splats, or access to the gallery repo at runtime.
 
 ## Host over HTTPS
 

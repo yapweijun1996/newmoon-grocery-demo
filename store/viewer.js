@@ -81,7 +81,7 @@ export async function createViewer({ select, scanReport }) {
   grid.visible = false;
   scene.add(grid);
   const draco = new DRACOLoader()
-      .setDecoderPath("./node_modules/three/examples/jsm/libs/draco/gltf/")
+      .setDecoderPath("./vendor/three/draco/")
       .setWorkerLimit(2),
     loader = new GLTFLoader().setDRACOLoader(draco);
   let dirty = true;
