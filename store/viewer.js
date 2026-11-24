@@ -3,7 +3,8 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 import { buildRoom } from "./room.js";
-import { goods } from "./catalog.js";
+import { goods, icon } from "./catalog.js";
+import { createWalk } from "./walk.js";
 
 export async function createViewer({ select, scanReport }) {
   const $ = (s) => document.querySelector(s),
@@ -268,6 +269,8 @@ export async function createViewer({ select, scanReport }) {
     });
   }
   controls.addEventListener("change", invalidate);
+  let walking = false;
+  const walk = createWalk({ camera, canvas, invalidate });
   function size() {
     const w = world.clientWidth,
       h = world.clientHeight;
@@ -278,11 +281,12 @@ export async function createViewer({ select, scanReport }) {
       mode === "store"
         ? Math.max(7.72, 11.25 / camera.aspect)
         : Math.max(placement.camera.minHeight, placement.camera.width / camera.aspect);
-    camera.fov = T.MathUtils.radToDeg(2 * Math.atan(height / (2 * dist)));
+    camera.fov = walking ? 70 : T.MathUtils.radToDeg(2 * Math.atan(height / (2 * dist)));
     camera.updateProjectionMatrix();
     invalidate();
   }
   function reset() {
+    if (walking) { walk.reset(); size(); return; }
     const store = mode === "store";
     camera.far = 140;
     controls.enablePan = !store;
@@ -308,6 +312,7 @@ export async function createViewer({ select, scanReport }) {
   reset();
   new ResizeObserver(size).observe(world);
   function zoom(factor) {
+    if (walking) return;
     const delta = camera.position.clone().sub(controls.target);
     camera.position
       .copy(controls.target)
@@ -364,8 +369,26 @@ export async function createViewer({ select, scanReport }) {
     scanReport({ mode, scanName, scanCount, problem, busy });
     relight();
   }
+  function setWalk(on) {
+    walking = on && mode === "store";
+    controls.enabled = !walking;
+    walk.setActive(walking);
+    world.classList.toggle("walking", walking);
+    canvas.dataset.view = walking ? "walk" : "orbit";
+    canvas.setAttribute("aria-label", walking ? "Walk through the 3D shop. Use arrow keys or WASD to move and drag to look." : "Orbit the 3D shop. Select a numbered marker or a piece in the shelf index.");
+    $("#walkView").setAttribute("aria-pressed", walking);
+    $("#orbitView").setAttribute("aria-pressed", !walking);
+    $("#joystick").hidden = !walking;
+    $("#zoomIn").disabled = $("#zoomOut").disabled = walking;
+    $("#viewHint").innerHTML = walking
+      ? `<i>${icon("walk")}</i><span class="walkHint">WASD / arrows to move · Drag to look</span>`
+      : `<i>${icon("orbit")}</i>Drag to orbit <span>·</span> Tap to inspect`;
+    if (walking) size(); else reset();
+  }
   function setMode(m) {
+    if (walking) setWalk(false);
     mode = m;
+    $("#walkView").disabled = m !== "store";
     groups.forEach((_, i) => arrange(i));
     sync();
     reset();
@@ -465,11 +488,13 @@ export async function createViewer({ select, scanReport }) {
     invalidate();
   }
   sync();
-  renderer.setAnimationLoop(() => {
+  renderer.setAnimationLoop((time) => {
+    walk.update(time);
+    if (walking) canvas.dataset.camera = camera.position.toArray().map((n) => n.toFixed(3)).join(",");
     if (!dirty && !(mode === "scan" && scan)) return;
     dirty = false;
     renderer.render(scene, camera);
     drawPins();
   });
-  return { setMode, reset, zoom, load, unload, fitScan, isModel: (i) => loaded.has(i) };
+  return { setMode, setWalk, reset, zoom, load, unload, fitScan, isModel: (i) => loaded.has(i) };
 }

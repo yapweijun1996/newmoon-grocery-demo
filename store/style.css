@@ -835,3 +835,45 @@ button:disabled {
     transition: none;
   }
 }
+
+/* Walking controls */
+.toolset button.viewMode {
+  display: flex;
+  gap: 4px;
+  width: auto;
+  padding: 0 8px;
+  font-size: 11px;
+  border-radius: 3px;
+}
+.toolset button.viewMode span {
+  width: auto;
+  height: auto;
+  margin: 0;
+  background: none;
+}
+.toolset button.viewMode[aria-pressed="true"] { background: #23463d; color: #fff8e7; }
+.toolset button:disabled { opacity: .4; cursor: default; }
+#joystick { display: none; }
+@media (pointer: coarse) {
+  #joystick:not([hidden]) {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    left: 16px;
+    bottom: 16px;
+    width: 104px;
+    height: 104px;
+    border: 1px solid #fff9e8bb;
+    border-radius: 50%;
+    background: #23463d77;
+    touch-action: none;
+    user-select: none;
+  }
+  #stick { width: 42px; height: 42px; border-radius: 50%; background: #fff9e8b8; pointer-events: none; }
+  .walking #view { cursor: default; }
+}
+@media (max-width: 650px) {
+  .toolset button.viewMode { padding: 0 5px; }
+  .walking + .tools .hint { font-size: 0; gap: 0; }
+  .walking + .tools .hint::after { content: "Move · Drag to look"; font-size: 10px; }
+}

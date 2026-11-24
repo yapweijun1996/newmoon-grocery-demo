@@ -71,16 +71,16 @@
               id="view"
               aria-label="Orbit the 3D shop. Select a numbered marker or a piece in the shelf index."
             ></canvas
-            ><div id="markers"></div
+            ><div id="markers"></div><div id="joystick" hidden aria-hidden="true"><div id="stick"></div></div
             ><div id="sceneBadge" class="badge"><span></span><b>Mock interior</b></div
             ><button id="expand" class="square" aria-label="Expand view"
               ><i data-icon="expand"></i></button
             ><div id="status" role="status" hidden></div></div
           ><div class="tools"
-            ><div class="hint"
+            ><div class="hint" id="viewHint"
               ><i data-icon="orbit"></i>Drag to orbit <span>·</span> Tap to inspect</div
             ><div class="toolset"
-              ><button id="zoomOut" aria-label="Zoom out"><i data-icon="minus"></i></button
+              ><button id="orbitView" class="viewMode" aria-pressed="true" title="Orbit view"><i data-icon="orbit"></i><span>Orbit</span></button><button id="walkView" class="viewMode" aria-pressed="false" title="Walk through the store"><i data-icon="walk"></i><span>Walk</span></button><span></span><button id="zoomOut" aria-label="Zoom out"><i data-icon="minus"></i></button
               ><button id="zoomIn" aria-label="Zoom in"><i data-icon="plus"></i></button
               ><span></span
               ><button id="reset" aria-label="Reset camera"

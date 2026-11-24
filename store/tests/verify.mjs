@@ -61,6 +61,48 @@ try {
   await ready(page);
   assert.equal(await page.locator(".pin:visible").count(), 5);
   await shot(page, "01-model-store", true);
+  await page.click("#walkView");
+  assert.equal(await page.locator("#walkView").getAttribute("aria-pressed"), "true");
+  await page.locator("#world").screenshot({ path: path.join(evidence, "07-desktop-walk.png") });
+  const position = async (p) => (await p.locator("#view").getAttribute("data-camera")).split(",").map(Number);
+  const start = await position(page);
+  assert.equal(start[1], 1.6);
+  await page.keyboard.down("KeyW");
+  await page.waitForTimeout(900);
+  await page.keyboard.up("KeyW");
+  const counter = await position(page);
+  assert(counter[2] < start[2] - 0.2 && counter[2] >= 1.655, `The counter stopped forward movement: ${counter}`);
+  await page.click("#reset");
+  await page.keyboard.down("KeyD");
+  await page.waitForTimeout(3500);
+  await page.keyboard.up("KeyD");
+  const wall = await position(page);
+  assert(wall[0] > start[0] + 1, `Walking moved the camera: ${start} -> ${wall}`);
+  assert(wall[0] <= 3.9 && wall[0] > 3.5, `The room boundary stopped the camera: ${wall}`);
+  await page.keyboard.down("ArrowRight");
+  await page.waitForTimeout(600);
+  await page.keyboard.up("ArrowRight");
+  assert(Math.abs((await position(page))[0] - wall[0]) < 0.05, "Wall remains solid");
+  await page.click("#reset");
+  await page.waitForTimeout(150);
+  const marker = await page.locator(".pin").nth(2).boundingBox();
+  const walkStage = await page.locator("#view").boundingBox();
+  await page.mouse.move(walkStage.x + walkStage.width * 0.7, walkStage.y + walkStage.height * 0.8);
+  await page.mouse.down();
+  await page.mouse.move(walkStage.x + walkStage.width * 0.7 + 35, walkStage.y + walkStage.height * 0.8, { steps: 4 });
+  await page.mouse.up();
+  await page.waitForTimeout(150);
+  assert(Math.abs((await page.locator(".pin").nth(2).boundingBox()).x - marker.x) > 2, "Mouse drag changes view direction");
+  await page.click("#reset");
+  await page.waitForTimeout(150);
+  const jarPin = await page.locator(".pin").nth(2).boundingBox();
+  await page.mouse.click(jarPin.x + jarPin.width / 2, jarPin.y + jarPin.height + 40);
+  assert.equal(await page.locator("#sheetBody h2").innerText(), "Bird’s Nest Jar", "Product geometry opens in walk mode");
+  await page.keyboard.press("Escape");
+  await page.click("#scanMode");
+  assert(await page.locator("#walkView").isDisabled());
+  assert.equal(await page.locator("#orbitView").getAttribute("aria-pressed"), "true");
+  await page.click("#storeMode");
   const rect = async () => page.locator(".pin").first().boundingBox();
   const initial = await rect();
   const stage = await page.locator("#world").boundingBox();
@@ -138,6 +180,34 @@ try {
   await ready(mobi);
   assert(await mobi.evaluate(() => document.documentElement.scrollWidth === window.innerWidth));
   await shot(mobi, "05-mobile-store", true);
+  await mobi.locator("#walkView").tap();
+  await mobi.locator("#world").screenshot({ path: path.join(evidence, "08-mobile-walk.png") });
+  assert(await mobi.locator("#joystick").isVisible());
+  assert.equal(await mobi.evaluate(() => visualViewport.scale), 1);
+  const touchSession = await mobi.context().newCDPSession(mobi);
+  const joy = await mobi.locator("#joystick").boundingBox();
+  const stageWalk = await mobi.locator("#view").boundingBox();
+  const beforeTouch = await position(mobi);
+  const jx = joy.x + joy.width / 2, jy = joy.y + joy.height / 2;
+  await touchSession.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: jx, y: jy, id: 0 }] });
+  await touchSession.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: jx + 30, y: jy, id: 0 }] });
+  await mobi.waitForTimeout(600);
+  await touchSession.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+  assert((await position(mobi))[0] > beforeTouch[0] + 0.1, "Touch joystick moves camera");
+  const markerBefore = await mobi.locator(".pin:visible").first().boundingBox();
+  const lx = stageWalk.x + stageWalk.width * 0.75, ly = stageWalk.y + stageWalk.height * 0.5;
+  await touchSession.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: lx, y: ly }] });
+  await touchSession.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: lx + 45, y: ly }] });
+  await touchSession.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+  await mobi.waitForTimeout(150);
+  const markerAfter = await mobi.locator(".pin:visible").first().boundingBox();
+  assert(Math.abs(markerAfter.x - markerBefore.x) > 2, "Touch drag changes view direction");
+  await mobi.locator("#reset").tap();
+  await mobi.locator(".pin:visible").first().tap();
+  assert(await mobi.locator("dialog[open]").isVisible(), "Touch opens a product in walk mode");
+  await mobi.keyboard.press("Escape");
+  await mobi.locator("#orbitView").tap();
+  await mobi.waitForTimeout(200);
   const cdp = await mobi.context().newCDPSession(mobi),
     canvas = await mobi.locator("#view").boundingBox(),
     pin = await mobi.locator(".pin").first().boundingBox();
@@ -176,7 +246,7 @@ try {
   assert.match(await missing.locator(".packnote").innerText(), /Study model/);
   assert.deepEqual(errors, []);
   console.log(
-    "PASS: Draco fixtures and five products, mesh picking, store and touch orbit, zoom/reset, expanded view, basket and AR link, missing-model recovery, all three scan formats, URL and file picker, empty/error states.",
+    "PASS: Walk movement, collision, mouse and touch look, joystick, product picking, mode switching; Draco fixtures and five products, orbit, zoom/reset, expanded view, basket and AR link, missing-model recovery, all three scan formats, URL and file picker, empty/error states.",
   );
 } finally {
   await browser?.close();

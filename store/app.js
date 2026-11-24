@@ -123,6 +123,8 @@ try {
   viewer = await createViewer({ select, scanReport: report });
   $("#storeMode").onclick = () => viewer.setMode("store");
   $("#scanMode").onclick = () => viewer.setMode("scan");
+  $("#orbitView").onclick = () => viewer.setWalk(false);
+  $("#walkView").onclick = () => viewer.setWalk(true);
   $("#reset").onclick = () => viewer.reset();
   $("#zoomIn").onclick = () => viewer.zoom(0.82);
   $("#zoomOut").onclick = () => viewer.zoom(1 / 0.82);
@@ -138,6 +140,6 @@ try {
 } catch (e) {
   console.error(e);
   status("3D unavailable. Explore the shelf index below.");
-  for (const id of ["#storeMode", "#scanMode", "#reset", "#zoomIn", "#zoomOut"])
+  for (const id of ["#storeMode", "#scanMode", "#orbitView", "#walkView", "#reset", "#zoomIn", "#zoomOut"])
     $(id).disabled = true;
 }
