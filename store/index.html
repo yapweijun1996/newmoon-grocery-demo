@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en"
+  ><head
+    ><meta charset="utf-8" /><meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+    /><meta name="theme-color" content="#183c35" /><title>Store atlas — New Moon</title
+    ><link rel="icon" href="data:," /><link rel="stylesheet" href="./style.css" /><link
+      rel="stylesheet"
+      href="./art.css"
+    /><script type="importmap">
+      {
+        "imports": {
+          "three": "./node_modules/three/build/three.module.js",
+          "three/addons/": "./node_modules/three/examples/jsm/",
+          "@sparkjsdev/spark": "./node_modules/@sparkjsdev/spark/dist/spark.module.min.js"
+        }
+      }
+    </script></head
+  >
+  <body
+    ><header class="mast"
+      ><div class="wrap bar"
+        ><a class="brand" href="#top"
+          >New Moon<span class="brand-rule"></span><span class="mono">Retail studies</span></a
+        ><div class="nav"
+          ><a href="#index">Shelf index</a
+          ><button id="basketBtn"
+            ><i data-icon="bag"></i>Basket <b id="count" aria-live="polite">0</b></button
+          ></div
+        ></div
+      ></header
+    >
+    <main class="wrap" id="top"
+      ><div class="intro"
+        ><div
+          ><div class="eyebrow"
+            ><span class="line"></span> Singapore <span>/</span> Virtual field guide</div
+          ><h1>Store <em>atlas.</em></h1
+          ><p>A spatial guide to the New Moon pantry and gifting collection.</p></div
+        ><div class="modes" aria-label="Scene mode"
+          ><button id="storeMode" aria-pressed="true"><i data-icon="cube"></i>Model store</button
+          ><button id="scanMode" aria-pressed="false"
+            ><i data-icon="scan"></i>Splat scan</button
+          ></div
+        ></div
+      >
+      <section class="exhibit" aria-label="Interactive exhibit"
+        ><aside class="rail"
+          ><div class="eyebrow brass"><span class="line"></span><span id="fig">Plate 01</span></div
+          ><h2 id="roomName">The provision<br /><em>room.</em></h2
+          ><p id="roomCopy"
+            >Explore a cutaway shop of pantry shelves, a refill counter and a festive gifting
+            corner.</p
+          ><div id="plan" aria-hidden="true"></div
+          ><div id="scanControls" hidden
+            ><label class="load" for="file"><i data-icon="upload"></i>Choose a scan</label
+            ><input id="file" type="file" accept=".spz,.ply,.splat" /><small
+              >.SPZ &nbsp;/&nbsp; .PLY &nbsp;/&nbsp; .SPLAT</small
+            ><div id="scanActions" hidden
+              ><button id="fitScan">Frame scan</button><button id="unload">Unload</button></div
+            ></div
+          ><div class="railfoot"
+            ><div class="rail-line"></div
+            ><div class="mono" id="roomCode">SG—01 <span>•</span> INTERIOR STUDY</div></div
+          ></aside
+        >
+        <div class="exhibitMain"
+          ><div id="world"
+            ><canvas
+              id="view"
+              aria-label="Orbit the 3D shop. Select a numbered marker or a piece in the shelf index."
+            ></canvas
+            ><div id="markers"></div
+            ><div id="sceneBadge" class="badge"><span></span><b>Mock interior</b></div
+            ><button id="expand" class="square" aria-label="Expand view"
+              ><i data-icon="expand"></i></button
+            ><div id="status" role="status" hidden></div></div
+          ><div class="tools"
+            ><div class="hint"
+              ><i data-icon="orbit"></i>Drag to orbit <span>·</span> Tap to inspect</div
+            ><div class="toolset"
+              ><button id="zoomOut" aria-label="Zoom out"><i data-icon="minus"></i></button
+              ><button id="zoomIn" aria-label="Zoom in"><i data-icon="plus"></i></button
+              ><span></span
+              ><button id="reset" aria-label="Reset camera"
+                ><i data-icon="reset"></i></button></div></div></div
+      ></section>
+      <section id="index"
+        ><div class="indexhead"
+          ><div class="eyebrow"><span class="line"></span> Collection register</div
+          ><div class="indexrow"
+            ><h2>Shelf index</h2><div class="mono">01—05 <span>/</span> Mock goods</div></div
+          ></div
+        ><div class="shelf" id="shelf"></div></section
+      ><footer
+        ><span>New Moon <em>/</em> Retail studies</span
+        ><span class="mono">Prototype edition &nbsp;·&nbsp; SG</span></footer
+      ></main
+    >
+    <dialog id="sheet"
+      ><button id="close" class="square" aria-label="Close dialog"><i data-icon="close"></i></button
+      ><div id="sheetBody"></div></dialog
+    ><script type="module" src="./app.js"></script></body
+></html>

@@ -1,0 +1,16 @@
+{
+  "name": "newmoon-store-atlas",
+  "version": "1.0.0",
+  "description": "Interactive mock grocery store and Gaussian splat placement study",
+  "scripts": {
+    "test": "node tests/verify.mjs",
+    "start": "python3 -m http.server 4186 --bind 127.0.0.1 --directory .."
+  },
+  "type": "module",
+  "dependencies": {
+    "@google/model-viewer": "4.4.0",
+    "@sparkjsdev/spark": "2.4.0",
+    "three": "0.183.2"
+  },
+  "private": true
+}
