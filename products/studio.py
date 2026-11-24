@@ -103,8 +103,18 @@ def hamper():
     for j in range(n):wire('Upright willow', [co(2*pi*j/n,t) for t in (0,.5,1)],.0028,cane2)
     for k in range(rows):
         t=k/(rows-1); pts=[co(2*pi*j/(n*4),t,.0029*cos(pi*j/4+k*pi)) for j in range(n*4)];wire('Woven willow',pts,.0037,cane if k%4 else cane2,True)
-    # A dark lined interior blocks views through the wicker and supports the gifts.
-    vs=[co(j*2*pi/80,t,-.004) for t in (0,.98) for j in range(80)];mesh('Lined basket',vs,[tuple(reversed(range(80))),tuple(range(80,160))]+[(j,(j+1)%80,(j+1)%80+80,j+80) for j in range(80)],umber)
+    # Open lining and pleated tissue, with the paper rising behind the gifts.
+    vs=[co(j*2*pi/80,t,-.004) for t in (0,.97) for j in range(80)];mesh('Lined basket',vs,[tuple(reversed(range(80)))]+[(j,(j+1)%80,(j+1)%80+80,j+80) for j in range(80)],umber)
+    tissue=material('Folded cream tissue','dfcaa2',0,.82);vs=[];fs=[];nfolds=64
+    for ring in range(3):
+        for j in range(nfolds):
+            a=2*pi*j/nfolds; pleat=cos(j*pi); scale2=(.35,.75,.93)[ring]+.017*pleat; h=(.08,.089,.103)[ring]+ring*(.002*pleat+.003*sin(a*7))
+            if ring==2: h+=.036*max(sin(a),0)**2*(.75+.25*cos(4*a))
+            vs.append((rx*scale2*cos(a),ry*scale2*sin(a),h))
+    for k in range(2):
+        for j in range(nfolds):
+            a=k*nfolds+j;b=k*nfolds+(j+1)%nfolds;fs.extend([(a,a+nfolds,b+nfolds),(a,b+nfolds,b)])
+    mesh('Fan-folded paper lining',vs,fs+[tuple(range(nfolds))],tissue)
     for t in [0,1]:hoop('Bound basket rim',0,0,.006+.108*t,rx*scale(t),ry*scale(t),.006,cane2)
     for off in [-.0028,.0028]:
         pts=[((rx+off)*cos(a*pi/100),.011,.108+(.201+off)*sin(a*pi/100)) for a in range(101)];wire('Split-cane handle',pts,.0048,cane)
@@ -143,7 +153,7 @@ def build(slug):
         m=material('Letterpress • '+p['name'],'ffffff');m.use_backface_culling=True;tex=m.node_tree.nodes.new('ShaderNodeTexImage');uvnode=m.node_tree.nodes.new('ShaderNodeUVMap');uvnode.uv_map='UVMap';m.node_tree.links.new(uvnode.outputs['UV'],tex.inputs['Vector']);tex.image=bpy.data.images.load(str(ROOT/p['slug']/'label.png'),check_existing=True);m.node_tree.links.new(tex.outputs['Color'],m.node_tree.nodes.get('Principled BSDF').inputs['Base Color']);labels.append(m)
     GENERATORS[i]();bpy.ops.object.select_all(action='SELECT');bpy.context.view_layer.objects.active=bpy.context.selected_objects[0];bpy.ops.object.convert(target='MESH');bpy.ops.object.join();obj=bpy.context.object;obj.data.uv_layers.active_index=obj.data.uv_layers.find('UVMap');obj.data.uv_layers.active.active_render=True;bpy.ops.object.origin_set(type='ORIGIN_CURSOR');obj.name=CAT[i]['name'];obj['origin_note']='Base centre, metre units';obj['artwork']='NEW MOON (placeholder pack art)';obj.data.name=slug
     bpy.ops.export_scene.gltf(filepath=str(out/'model.glb'),export_extras=True,export_draco_mesh_compression_enable=True,export_draco_mesh_compression_level=7,export_draco_position_quantization=16)
-    # Transparent, orthographic catalogue photographs, using the same physical object.
+    # Transparent, orthographic catalogue previews, using the same physical object.
     pts=[obj.matrix_world@Vector(p) for p in obj.bound_box];ctr=sum(pts,Vector((0,0,0)))/8;size=max(obj.dimensions);scene.world=bpy.data.worlds.new('Soft ivory bounce');scene.world.use_nodes=True;scene.world.node_tree.nodes['Background'].inputs[0].default_value=(.72,.66,.57,1);scene.world.node_tree.nodes['Background'].inputs[1].default_value=.65
     def aim(o):o.rotation_euler=(ctr-o.location).to_track_quat('-Z','Y').to_euler()
     for j,(loc,power,span) in enumerate([((-1.5,-2,2.8),145,2),((2,-1,1.4),65,1.4),((.4,1.7,2),120,1.2)]):
